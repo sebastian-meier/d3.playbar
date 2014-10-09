@@ -76,7 +76,7 @@
 		function updateData(){
 			data_size++;
 			//Here we tell the playbar which piece of the data we just loaded and the size of the data loaded
-			myPlaybar.loading(data_size, 200)
+			myPlaybar.loading(data_size, 200);
 			if(data_size == global_data.length){
 				window.clearInterval(interval);
 			}
