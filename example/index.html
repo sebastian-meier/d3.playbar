@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>d3.playbar</title>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+	<link href="../d3.playbar.css" rel="stylesheet" />
+	<link href="../lib/d3.spinner.css" rel="stylesheet" />
+	<style>
+		html,body{
+			margin:0;
+			padding:0;
+		}
+		#playbar{
+			min-width:200px;
+			height:70px;
+			margin:20px;
+			padding: 0;
+		}
+
+		svg{
+			width:100%;
+			height:70px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="playbar"></div>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+	<script src="../lib/d3.tools.min.js"></script>
+	<script src="../lib/d3.spinner.min.js"></script>
+	<script src="../d3.playbar.js"></script>
+	<script>
+
+		//Initiate Playbar
+	    var myPlaybar = playbar({repeat:true});
+
+	    //Add listeners to the change event - call for every change of the playhead position
+	    myPlaybar.on("change", function(status){ console.log(status); });
+
+	    //Add listeners to the status event - call for every change on loading/playing/pause
+	    myPlaybar.on("status", function(status){ console.log(status); });
+
+	    //Apply playbar to an svg-container
+	    d3.select('#playbar').append("svg").call(myPlaybar);
+
+
+	    var parseDate = d3.time.format("%b %Y").parse;
+
+	    function type(d){
+			d.date = parseDate(d.date);
+			d.price = +d.price;
+			return d;
+		}
+
+		var data_size = 0;
+		var interval;
+		var global_data;
+
+		d3.csv("sp500.csv", type, function(error, data) {
+			if(error){
+				//In case of Data-Error -> Abort!
+				console.log(error);
+			}else{
+				global_data = data;
+
+				//Load Data and send it to the playbar, to generate the preview graph
+				myPlaybar.data(data);
+
+				//This part is faking an actual loading-chain
+				interval = window.setInterval(function(){ updateData(); }, 100);
+			}
+		});
+
+		function updateData(){
+			data_size++;
+			//Here we tell the playbar which piece of the data we just loaded and the size of the data loaded
+			myPlaybar.loading(data_size, 200)
+			if(data_size == global_data.length){
+				window.clearInterval(interval);
+			}
+		}
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+//Spinner Css
+
+.playbar{
+	.background{
+		shape-rendering:crispEdges;
+		fill:rgba(0,0,0,0.1);
+		stroke:none;
+	}
+	.border{
+		shape-rendering:crispEdges;
+		fill:none;
+		stroke: rgba(0,0,0,1);
+		stroke-width: 1;
+		stroke-linecap: square;
+	}
+	.icon{
+		fill:rgba(0,0,0,0.5);
+		display:none;
+	}
+	.icon_container{
+		&.loading{
+			.icon.spinner{
+				display:block;
+			}
+		}
+		&.playing{
+			.icon.pause{
+				display:block;
+			}
+		}
+		&.pause{
+			.icon.play{
+				display:block;
+			}
+		}
+	}
+	.area{
+		&.active{
+			fill:rgba(0,0,0,0.5);
+		}
+		&.inactive{
+			fill:rgba(0,0,0,0.2);
+		}
+	}
+	.handle{
+		shape-rendering:crispEdges;
+		fill:rgba(0,0,0,1);
+		stroke: none;
+	}
+	.axis{
+		.domain{
+			shape-rendering:crispEdges;
+			fill:none;
+			stroke: rgba(0,0,0,1);
+		}
+		.tick{
+			font: 10px sans-serif;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+	}
+}
